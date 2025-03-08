@@ -1,0 +1,14 @@
+.row{
+    display: 'flex';
+     flex-direction: 'row';
+       justify-content: 'space-around'
+}
+.row *{
+    margin: '0 5px';
+}
+
+.JobCardContainer{
+    margin-top: 30px;
+    background-color: #E6F0F1;
+    height: 100vh;
+}

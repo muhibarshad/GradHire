@@ -1,0 +1,85 @@
+body,
+html {
+  /* height: 100%;
+margin: 0;
+font-family: 'raleway', sans-serif;
+font-weight: 200; */
+}
+body {
+  height: 100vh;
+}
+.digitgroup input,
+.gridContainer input {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-bottom: 2px solid black;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 200;
+  color: black;
+  margin-right: 10px;
+}
+.digitgroup input:focus {
+  outline: none;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.centered,
+.gridContainer {
+  width: 70%;
+  height: 70vh;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  text-align: center;
+  margin: auto;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.prompt {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: black;
+  width: 70%;
+}
+
+.error_msg {
+  color: red;
+  font-size: 16px;
+  padding-top: 20px;
+  margin-bottom: 10px;
+}
+
+.gridContainer {
+  text-align: center;
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+.gridContainer input {
+  font-size: 20px;
+  text-align: left;
+}
+.gridContainer input:focus {
+  outline: none;
+}
+
+.gridContainer .simCode {
+  width: 35px;
+}
+.gridContainer .number {
+  width: 100px;
+}
+.recaptcha {
+  margin-top: 30px;
+}

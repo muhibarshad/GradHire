@@ -1,0 +1,21 @@
+.Layout {
+  display: flex;
+  width: 100vw;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-x: none;
+  overflow: none;
+}
+
+.SideBar {
+  width: 20vw;
+}
+.PageContent {
+  margin: 0 !important;
+  width: 80vw;
+  border-left: 1px solid #282c34;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #f1f0f0;
+}

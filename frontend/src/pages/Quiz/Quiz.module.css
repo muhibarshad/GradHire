@@ -1,0 +1,25 @@
+.optionValue {
+    border: solid 1px black;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
+.optionValue span {
+    border: solid 1px black;
+    border-radius: 15px;
+    padding: 5px 8px;
+    margin: 3px;
+    background-color: white;
+}
+
+.optionValue:hover {
+    border: solid 1px rgb(67, 67, 67);
+    background-color: #c9e4ff;
+    cursor: pointer;
+}
+
+.optionValueSelected {
+    background-color: #c9e4ff;
+    ;
+}

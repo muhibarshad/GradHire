@@ -1,0 +1,52 @@
+.node {
+    background-color: white;
+    height: 30px;
+    width: 30px;
+    border: 1px blue solid;
+    border-radius: 50%;
+    padding: 2px;
+    text-align: center;
+}
+
+.node:hover,
+.noHeadNode:hover {
+    cursor: pointer;
+}
+
+.noHeadNode {
+    background-color: rgb(158, 158, 158);
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+}
+
+.nodeComplete {
+    background: rgb(215, 208, 255);
+    background: linear-gradient(55deg, rgba(215, 208, 255, 1) 0%, rgba(151, 60, 255, 1) 49%, rgba(197, 1, 255, 1) 99%);
+    color: white;
+    border: none;
+}
+
+.currentNode {
+    background: rgb(208, 251, 255);
+    background: linear-gradient(55deg, rgba(208, 251, 255, 1) 0%, rgba(60, 234, 255, 1) 49%, rgba(1, 177, 255, 1) 99%);
+    border: none;
+}
+
+.connector {
+    height: 5px;
+    width: 90%;
+    background-color: blueviolet;
+}
+
+.connectorComplete {
+    background-color: blueviolet;
+}
+
+.flex_node {
+
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-items: stretch;
+}

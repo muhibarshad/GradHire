@@ -1,0 +1,126 @@
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.AppHeader {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  min-height: 10vh;
+  color: white;
+  border-bottom: 1px solid #282c34;
+}
+
+.AppFooter {
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
+  width: 100vw;
+  justify-content: space-evenly;
+  border-top: 1px solid #282c34;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(70, 70, 70, 0.2),
+    0 6px 20px 0 rgba(103, 101, 101, 0.19);
+  border-radius: 5px;
+  margin-right: 20px;
+  flex-wrap: nowrap;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(70, 70, 70, 0.2),
+    0 12px 40px 0 rgba(103, 101, 101, 0.19);
+  transform: scale(1.05);
+}
+
+.statCard {
+  border: 1px solid #282c34;
+  border-radius: 5px;
+
+  width: 150px;
+  margin: 10px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px 0 rgba(70, 70, 70, 0.2),
+    0 6px 20px 0 rgba(103, 101, 101, 0.19);
+}
+.companyCard {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #282c34;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px 20px;
+}
+.companyView {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
+  border: 1px solid #282c34;
+  border-radius: 5px;
+  margin: 20px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px 0 rgba(70, 70, 70, 0.2),
+    0 6px 20px 0 rgba(103, 101, 101, 0.19);
+}
+.companyView:hover {
+  box-shadow: 0 8px 16px 0 rgba(70, 70, 70, 0.2),
+    0 12px 40px 0 rgba(103, 101, 101, 0.19);
+  transform: scale(1.01);
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.reviewClass {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.jobsCards {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hover:hover {
+  transform: scale(1.1);
+}
+
+.compareContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  align-content: center;
+}
+.compareContainerLeft {
+  flex: 1;
+  width: 100%;
+  align-self: center;
+
+  text-align: center;
+}
+.compareContainerRight {
+  flex: 1;
+  text-align: center;
+  width: 100%;
+  border-left: 1px solid black;
+}

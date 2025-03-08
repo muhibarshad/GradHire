@@ -1,0 +1,13 @@
+.modalHeader {
+  background-color: rgb(65, 42, 148);
+  color: white;
+}
+
+.tableStyle,
+.tableStyle th,
+.tableStyle td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+  margin: 20px auto;
+}

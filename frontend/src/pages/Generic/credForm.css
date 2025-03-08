@@ -1,0 +1,92 @@
+.form_top_content {
+    margin-top: 3rem;
+}
+
+.field_width {
+    width: 70%;
+}
+
+.create_account_btn {
+    background-color: #265BC4 !important;
+    color: white;
+    text-transform: capitalize !important;
+}
+
+.create_account_btn:hover {
+    background-color: #2c68e0 !important;
+    color: white;
+}
+.create_account_btn:active,
+.create_account_btn:focus {
+    color: white !important;
+}
+
+.css-itvipi-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root.Mui-disabled {
+    color: white !important;
+}
+.Pricay_msg {
+    font-size: 12px;
+}
+
+.Links,
+.move_login a,
+.check_input a,
+.move_signup a {
+    text-decoration: none;
+    color: #265BC4;
+    font-weight: 600;
+}
+
+.check_input {
+    font-size: 13px;
+    margin-top: -4px;
+}
+
+.move_signup {}
+
+.inline_link:hover {
+    cursor: pointer;
+}
+
+.signup-form-fields{
+    width: 100%;
+}
+
+.singup-flex-input{
+    width: 100%;
+    margin-top: 14px;
+}
+
+@media screen and (min-width: 550px) {
+    .singup-flex-input{
+        width: 50%;
+        padding-right: 10px;
+        margin-top: 0px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .singup-flex-input{
+        width: 100%;
+        margin-top: 14px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .singup-flex-input{
+        width: 50%;
+        padding-right: 10px;
+        margin-top: 0px;
+    }
+}
+
+
+/* 
+
+######################
+
+FLOW BITE CSS
+
+######################
+
+*/
