@@ -296,6 +296,10 @@ exports.removeCompany = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.dummy=(req, res ,next)=>{
+  console.log("HI how are you ")
+  next();
+}
 
 
 // Optimize: get all with their image

@@ -46,7 +46,7 @@ const sendEmail = async options => {
   const transporter = nodeMailer.createTransport(emailOptions);
 
   const mailOptions = {
-    from: 'Recruuit',
+    from: 'GradHire',
     to: options.email,
     subject: options.subject,
     text: options.message,

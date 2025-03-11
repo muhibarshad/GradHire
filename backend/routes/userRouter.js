@@ -8,7 +8,7 @@ const {
   getSingleUser,
   createUser,
   updateUser,
-  deleteUser} = require( "../controllers/userController");
+  deleteUser, dummy} = require( "../controllers/userController");
 
 
 router.post(
@@ -25,7 +25,7 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch('/verifyEmail/:id', userController.verifyEmail);
 
 //Optimize:   ***** Routes ******
-router.route( '/' ).get(getAllUser).post(createUser);
+router.route( '/' ).get(dummy, getAllUser).post(createUser);
 
 router.route('/addFavourite/:id')
 .patch(userController.addFavourite);

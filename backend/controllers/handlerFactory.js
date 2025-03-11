@@ -108,45 +108,48 @@ exports.getOne = (Model, populateOptions) => {
   })
 }
 
-//Fix: Get all the documents from DB
 exports.getAll = (Model, populateOptions, options) => {
   return catchAsync(async (req, res, next) => {
-    let filterObj = { role: 'user' }
+    try {
+      console.log("HI")
+      let filterObj = {};
+      if (Model.schema.obj.role) filterObj.role = 'user';
 
-    const features = new APIFeatures(
-      Model.find(filterObj).select('+password'),
-      req.query
-    )
+      const features = new APIFeatures(
+        Model.find(filterObj).select('+password'),
+        req.query
+      );
 
-    // ! EXECUTE THE QUERRY
-    let query = features.query
-    let docs
+      // Execute query
+      let query = features.query;
+      if (populateOptions) query = query.populate(populateOptions).lean();
 
-    if (populateOptions) {
-      query = query.populate(populateOptions).lean()
-    }
-
-    docs = await query
-
-    // images
-    docs.forEach((doc) => {
-      if (doc.photo) {
-       
-        const image = fs.readFileSync(
-          path.join(__dirname, `../public/img/${doc.photo}`)
-        )
-
-        const base64EncodedImage = image.toString('base64')
-        doc.photo = base64EncodedImage
+      const docs = await query;
+      if (!docs || docs.length === 0) {
+        return res.status(404).json({ status: 'fail', message: 'No users found' });
       }
-    })
-    
 
-    // ! SENDING THE REPONSE
-    res.status(200).json({
-      status: 'success',
-      results: docs.length,
-      data: docs,
-    })
-  })
-}
+      // Convert image to Base64 safely
+      docs.forEach((doc) => {
+        if (doc.photo) {
+          const imagePath = path.join(__dirname, `../public/img/${doc.photo}`);
+          if (fs.existsSync(imagePath)) {
+            const image = fs.readFileSync(imagePath);
+            doc.photo = image.toString('base64');
+          } else {
+            doc.photo = null;
+          }
+        }
+      });
+
+      res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        data: docs,
+      });
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+  });
+};
