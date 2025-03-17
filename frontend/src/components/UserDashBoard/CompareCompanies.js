@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -8,9 +8,8 @@ import {
   Divider,
   Image,
   message,
-} from 'antd'
-import styles from './DashBoard.module.css'
-
+} from 'antd';
+import styles from './DashBoard.module.css';
 import {
   HeartFilled,
   EyeFilled,
@@ -20,11 +19,11 @@ import {
   TeamOutlined,
   CalendarOutlined,
   BankOutlined,
-} from '@ant-design/icons'
-import { getAllCompanies } from '../../util/api-call'
-import Spinner from '../../pages/Spinner'
+} from '@ant-design/icons';
+import { getAllCompanies } from '../../util/api-call';
+import Spinner from '../../pages/Spinner';
 
-const { Option } = Select
+const { Option } = Select;
 
 const CompanyBanner = () => {
   return (
@@ -92,18 +91,16 @@ const CompanyBanner = () => {
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 const CompanyRow = ({ fieldIcon, fieldName, fieldValue }) => {
-  //console.log(fieldName, fieldValue)
   return (
     <Row
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-
-        padding: '10px 100px',
+        padding: '10px 20px', // Adjust padding for mobile
       }}
     >
       <Col>
@@ -120,51 +117,47 @@ const CompanyRow = ({ fieldIcon, fieldName, fieldValue }) => {
         </Typography>
       </Col>
     </Row>
-  )
-}
+  );
+};
+
 const CompanyComparisonPage = () => {
-  const [companies, setCompanies] = useState([])
-  const [firstCompany, setFirstCompany] = useState(null)
-  const [secondCompany, setSecondCompany] = useState(null)
-  const [messageApi, contextHolder] = message.useMessage()
+  const [companies, setCompanies] = useState([]);
+  const [firstCompany, setFirstCompany] = useState(null);
+  const [secondCompany, setSecondCompany] = useState(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleFirstCompanyChange = (value) => {
-    //console.log(value)
-    setFirstCompany(companies.find((c) => c._id === value))
-  }
+    setFirstCompany(companies.find((c) => c._id === value));
+  };
+
   const handleSecondCompanyChange = (value) => {
-    setSecondCompany(companies.find((c) => c._id === value))
-  }
+    setSecondCompany(companies.find((c) => c._id === value));
+  };
 
   const compareCompanies = () => {
-    // first check if companies are selected
     if (!firstCompany || !secondCompany) {
-      // show alert
-      messageApi.error('Please select two companies to compare')
+      messageApi.error('Please select two companies to compare');
     }
-  }
+  };
 
   useEffect(() => {
-    // fetch companies from backend
     const fetchCompanies = async () => {
       try {
-        const response = await getAllCompanies()
-        //console.log(response.data.company)
-        setCompanies(response.data.company)
+        const response = await getAllCompanies();
+        setCompanies(response.data.company);
       } catch (error) {
-        messageApi.error('Error in Loading Companies')
+        messageApi.error('Error in Loading Companies');
       }
-    }
+    };
 
-    fetchCompanies()
-  }, [])
+    fetchCompanies();
+  }, []);
 
   return (
     <div
       style={{
         minHeight: '100vh',
-        padding: '20px 60px',
-        // light blue background
+        padding: '20px', // Adjust padding for mobile
       }}
     >
       {contextHolder}
@@ -174,11 +167,11 @@ const CompanyComparisonPage = () => {
         <Spinner />
       ) : (
         <>
-          <Row className={styles.compareContainer}>
-            <Col className={styles.compareContainerLeft}>
+          <Row className={styles.compareContainer} gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
               <Select
                 showSearch
-                style={{ width: 300 }}
+                style={{ width: '100%' }} // Full width for mobile
                 placeholder='Select a company'
                 optionFilterProp='children'
                 onChange={handleFirstCompanyChange}
@@ -190,11 +183,10 @@ const CompanyComparisonPage = () => {
                 ))}
               </Select>
             </Col>
-            <Typography.Title level={3}>vs</Typography.Title>
-            <Col className={styles.compareContainerLeft}>
+            <Col xs={24} sm={12}>
               <Select
                 showSearch
-                style={{ width: 300 }}
+                style={{ width: '100%' }} // Full width for mobile
                 placeholder='Select a company'
                 optionFilterProp='children'
                 onChange={handleSecondCompanyChange}
@@ -376,7 +368,7 @@ const CompanyComparisonPage = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CompanyComparisonPage
+export default CompanyComparisonPage;
