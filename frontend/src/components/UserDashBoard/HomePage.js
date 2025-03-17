@@ -4,8 +4,8 @@ import {
   UserOutlined,
   LaptopOutlined,
   UnorderedListOutlined,
-} from '@ant-design/icons'
-import { useEffect, useState } from 'react'
+} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -18,212 +18,291 @@ import {
   Button,
   Divider,
   List,
-} from 'antd'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import Spinner from '../../pages/Spinner'
-import { getApplication, getFollowings } from '../../util/api-call'
-import { useSelector } from 'react-redux'
+} from "antd";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../pages/Spinner";
+import { getApplication, getFollowings } from "../../util/api-call";
+import { useSelector } from "react-redux";
 
-const { Meta } = Card
+const { Meta } = Card;
 const Stats = ({ stats }) => {
   const data = [
     {
-      title: 'Applied At',
-      key: '1',
+      title: "Applied At",
+      key: "1",
       value: `${stats.applied}`,
-      icon: <LaptopOutlined style={{ color: '#cf1322', fontSize: '20px' }} />,
+      icon: <LaptopOutlined style={{ color: "#1890ff", fontSize: "28px" }} />,
+      bgColor: "#e6f7ff",
+      borderColor: "#91d5ff",
     },
     {
-      title: 'Accepted',
+      title: "Accepted",
       value: `${stats.accepted}`,
-      key: '2',
+      key: "2",
       icon: (
-        <UnorderedListOutlined style={{ color: '#1890ff', fontSize: '20px' }} />
+        <UnorderedListOutlined style={{ color: "#52c41a", fontSize: "28px" }} />
       ),
+      bgColor: "#f6ffed",
+      borderColor: "#b7eb8f",
     },
     {
-      title: 'Rejected',
+      title: "Rejected",
       value: `${stats.rejected}`,
-      icon: <DislikeOutlined style={{ color: '#ff4d4f', fontSize: '20px' }} />,
-      key: '3',
+      icon: <DislikeOutlined style={{ color: "#ff4d4f", fontSize: "28px" }} />,
+      key: "3",
+      bgColor: "#fff1f0",
+      borderColor: "#ffa39e",
     },
-  ]
+  ];
 
   return (
     <Row gutter={[16, 16]}>
       {data.map((item) => (
-        <Col xs={24} sm={12} md={8} lg={8}>
+        <Col xs={24} sm={12} md={8} lg={8} key={item.key}>
           <Card
-            style={{ backgroundColor: '#e6f7ff', border: '1px solid #91d5ff' }}
-            key={item.key}
+            style={{
+              backgroundColor: item.bgColor,
+              border: `1px solid ${item.borderColor}`,
+              borderRadius: "12px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.09)",
+              },
+            }}
           >
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
+                padding: "8px",
               }}
             >
-              {item.icon}
-              <h5 style={{ margin: '0 0 0 10px' }}>{item.title}</h5>
-              <p
+              <div
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 'bold',
-                  marginLeft: 'auto',
-                  paddingTop: '15px',
+                  backgroundColor: "#fff",
+                  borderRadius: "12px",
+                  padding: "12px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                 }}
               >
-                {item.value}
-              </p>
+                {item.icon}
+              </div>
+              <div style={{ marginLeft: "16px", flex: 1 }}>
+                <Typography.Text
+                  style={{
+                    fontSize: "16px",
+                    color: "#595959",
+                    display: "block",
+                  }}
+                >
+                  {item.title}
+                </Typography.Text>
+                <Typography.Title
+                  level={3}
+                  style={{
+                    margin: "4px 0 0 0",
+                    color: "#262626",
+                  }}
+                >
+                  {item.value}
+                </Typography.Title>
+              </div>
             </div>
           </Card>
         </Col>
       ))}
     </Row>
-  )
-}
+  );
+};
 
 const JobList = ({ applications }) => {
-  const navigate = useNavigate()
-  const data = applications
-  //console.log(data)
-
-  const [currentPage, setCurrentPage] = useState(1)
+  const navigate = useNavigate();
+  const data = applications;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const onPageChange = (page) => {
-    setCurrentPage(page)
-  }
+    setCurrentPage(page);
+  };
 
-  const filteredData = data.slice((currentPage - 1) * 5, currentPage * 5)
+  const filteredData = data.slice((currentPage - 1) * 5, currentPage * 5);
 
   return (
     <>
       <List
         style={{
-          width: '100%',
-          fontSize: '18px',
-          minHeight: '300px !important',
+          width: "100%",
         }}
         dataSource={filteredData}
         renderItem={(item) => (
           <List.Item
             style={{
-              width: '100%',
-              padding: '40px',
-              marginBottom: '20px',
-
-              boxShadow: '0 0 15px rgba(0,0,0,0.1)',
+              width: "100%",
+              padding: { xs: "16px", sm: "24px" },
+              marginBottom: "16px",
+              borderRadius: "12px",
+              backgroundColor: "#fff",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+              transition: "all 0.3s ease",
+              border: "1px solid #f0f0f0",
+              cursor: "pointer",
+              "&:hover": {
+                transform: "translateY(-2px)",
+                boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+              },
             }}
+            onClick={() => navigate(`/user/job/${item.job._id}`)}
           >
-            <List.Item.Meta
-              avatar={
-                <Avatar style={{ backgroundColor: '#1890ff' }}>
-                  {item.job.title[0]}
-                </Avatar>
-              }
-              title={<a href='/'>{item.job.title}</a>}
-              description={
-                <div
+            <div style={{ width: "100%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                  marginBottom: "16px",
+                }}
+              >
+                <Avatar
+                  size={56}
                   style={{
-                    width: '100%',
-                    gap: '5px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
+                    backgroundColor: "#1890ff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    boxShadow: "0 2px 8px rgba(24,144,255,0.2)",
                   }}
                 >
-                  <div style={{}}>
-                    <div>
-                      {new Date(item.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </div>
-                    <Tag
-                      color={
-                        item.status === 'Pending'
-                          ? 'orange'
-                          : item.status === 'Accepted'
-                          ? 'blue'
-                          : 'red'
-                      }
-                    >
-                      {item.status}
-                    </Tag>
-                  </div>
-
-                  <div>
-                    <Button
-                      type='primary'
-                      onClick={() => navigate(`/user/job/${item.job._id}`)}
-                    >
-                      View Details
-                    </Button>
-                  </div>
+                  {item.job.title[0]}
+                </Avatar>
+                <div style={{ flex: 1 }}>
+                  <Typography.Title
+                    level={4}
+                    style={{
+                      margin: 0,
+                      marginBottom: "8px",
+                      color: "#262626",
+                    }}
+                  >
+                    {item.job.title}
+                  </Typography.Title>
+                  <Typography.Text
+                    type="secondary"
+                    style={{
+                      fontSize: "14px",
+                      display: "block",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    Applied on{" "}
+                    {new Date(item.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </Typography.Text>
                 </div>
-              }
-            />
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "12px",
+                }}
+              >
+                <Tag
+                  color={
+                    item.status === "Pending"
+                      ? "orange"
+                      : item.status === "Accepted"
+                      ? "blue"
+                      : "red"
+                  }
+                  style={{
+                    padding: "6px 16px",
+                    borderRadius: "20px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    border: "none",
+                    boxShadow: "0 2px 0 rgba(0,0,0,0.045)",
+                  }}
+                >
+                  {item.status}
+                </Tag>
+
+                <Button
+                  type="primary"
+                  style={{
+                    borderRadius: "8px",
+                    padding: "4px 20px",
+                    height: "36px",
+                    fontWeight: "500",
+                    boxShadow: "0 2px 0 rgba(0,0,0,0.045)",
+                  }}
+                >
+                  View Details
+                </Button>
+              </div>
+            </div>
           </List.Item>
         )}
       />
 
       <Pagination
-        style={{ marginTop: 20, textAlign: 'center' }}
+        style={{
+          marginTop: "24px",
+          textAlign: "center",
+          marginBottom: "16px",
+        }}
         current={currentPage}
         pageSize={5}
         total={data.length}
         onChange={onPageChange}
       />
-
-      <Button
-        type='primary'
-        style={{ width: '50%', display: 'block', margin: '20px auto' }}
-        onClick={() => {
-          navigate('/user/jobs')
-        }}
-      >
-        Apply More
-      </Button>
-      <Divider />
     </>
-  )
-}
+  );
+};
 
 const CompanyList = () => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const user = useSelector((state) => state.user)
-  const navigate = useNavigate()
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getFollowings(user.id)
+        const res = await getFollowings(user.id);
         //console.log(res)
-        setData(res.data.companies)
-        setLoading(false)
+        setData(res.data.companies);
+        setLoading(false);
       } catch (err) {
         //console.log(err)
       }
-    }
-    fetchData()
-  }, [user.id])
+    };
+    fetchData();
+  }, [user.id]);
 
-  const [current, setCurrent] = useState(1)
+  const [current, setCurrent] = useState(1);
 
   const handleChange = (page) => {
-    setCurrent(page)
-  }
+    setCurrent(page);
+  };
 
-  const startIndex = (current - 1) * 4
-  const endIndex = startIndex + 4
+  const startIndex = (current - 1) * 4;
+  const endIndex = startIndex + 4;
 
   if (loading) {
-    return <Spinner />
+    return <Spinner />;
   }
   if (data.length === 0) {
-    return <div>No companies to show</div>
+    return <div>No companies to show</div>;
   }
   return (
     <>
@@ -232,14 +311,14 @@ const CompanyList = () => {
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
             <Card
               style={{
-                height: '100%',
-                padding: '10px',
-                textAlign: 'center',
-                cursor: 'pointer',
-                backgroundColor: '#f0f0f0',
+                height: "100%",
+                padding: "10px",
+                textAlign: "center",
+                cursor: "pointer",
+                backgroundColor: "#f0f0f0",
               }}
               onClick={() => {
-                navigate(`/user/company/${company._id}`)
+                navigate(`/user/company/${company._id}`);
               }}
               hoverable
               cover={
@@ -247,9 +326,9 @@ const CompanyList = () => {
                   alt={company.name}
                   src={`data:image/jpeg;base64,${company.photo}`}
                   style={{
-                    height: '200px',
-                    objectFit: 'contain',
-                    padding: '10px',
+                    height: "200px",
+                    objectFit: "contain",
+                    padding: "10px",
                   }}
                 />
               }
@@ -260,73 +339,136 @@ const CompanyList = () => {
         ))}
       </Row>
       <Pagination
-        style={{ marginTop: '25px', textAlign: 'center', marginBottom: '16px' }}
+        style={{ marginTop: "25px", textAlign: "center", marginBottom: "16px" }}
         current={current}
         pageSize={4}
         total={data.length}
         onChange={handleChange}
       />
     </>
-  )
-}
+  );
+};
 
 const HomePage = () => {
-  const navigate = useNavigate()
-  const user = useSelector((state) => state.user)
-  const [applications, setApplications] = useState([])
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const [applications, setApplications] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getApplication(user.id)
-        setApplications(res.data.data)
+        const res = await getApplication(user.id);
+        setApplications(res.data.data);
       } catch (err) {
         //console.log(err)
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const stats = {
     applied: applications.length,
     accepted: applications.filter(
-      (application) => application.status === 'Accepted'
+      (application) => application.status === "Accepted"
     ).length,
     rejected: applications.filter(
-      (application) => application.status === 'Rejected'
+      (application) => application.status === "Rejected"
     ).length,
-  }
+  };
 
   return (
     <div
       style={{
-        minHeight: '100vh',
-        padding: '20px 60px',
+        minHeight: "100vh",
+        padding: { xs: "16px", sm: "24px", md: "32px" },
+        backgroundColor: "#f5f5f5",
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography.Title level={3}>
+      <div
+        style={{
+          marginBottom: "32px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <Typography.Title
+          level={3}
+          style={{
+            margin: 0,
+            fontSize: { xs: "24px", sm: "28px" },
+            textAlign: { xs: "center", sm: "left" },
+          }}
+        >
           Here are your stats 👋
         </Typography.Title>
         <Button
-          type='primary'
-          style={{ marginLeft: 'auto' }}
+          type="primary"
+          size="large"
+          style={{
+            width: { xs: "100%", sm: "200px" },
+            height: "40px",
+            borderRadius: "8px",
+            fontWeight: "500",
+          }}
           onClick={() => {
-            navigate('/user/jobs')
+            navigate("/user/jobs");
           }}
         >
           Apply More
         </Button>
       </div>
+
       <Stats stats={stats} />
       <Divider />
 
-      <Typography.Title level={3}>Job Where you applied</Typography.Title>
-      <JobList applications={applications} />
+      <Card
+        title={
+          <Typography.Title
+            level={4}
+            style={{
+              margin: 0,
+              fontSize: { xs: "20px", sm: "24px" },
+            }}
+          >
+            Jobs Where You Applied
+          </Typography.Title>
+        }
+        style={{
+          marginBottom: "24px",
+          borderRadius: "12px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        }}
+        bodyStyle={{
+          padding: { xs: "12px", sm: "20px" },
+        }}
+      >
+        <JobList applications={applications} />
+      </Card>
 
-      <Typography.Title level={3}>Companies you Follow</Typography.Title>
-      <CompanyList />
+      <Card
+        title={
+          <Typography.Title
+            level={4}
+            style={{
+              margin: 0,
+              fontSize: { xs: "20px", sm: "24px" },
+            }}
+          >
+            Companies You Follow
+          </Typography.Title>
+        }
+        style={{
+          borderRadius: "12px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        }}
+        bodyStyle={{
+          padding: { xs: "12px", sm: "20px" },
+        }}
+      >
+        <CompanyList />
+      </Card>
     </div>
-  )
-}
-export default HomePage
+  );
+};
+export default HomePage;

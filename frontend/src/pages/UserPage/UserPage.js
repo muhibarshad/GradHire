@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Input,
@@ -9,32 +9,32 @@ import {
   Col,
   Divider,
   Button,
-} from 'antd'
-import { useNavigate } from 'react-router-dom'
+} from "antd";
+import { useNavigate } from "react-router-dom";
 import {
   MessageOutlined,
   UserOutlined,
   UsergroupAddOutlined,
-} from '@ant-design/icons'
-import Spinner from '../Spinner'
-import { getAllUsers } from '../../util/api-call'
+} from "@ant-design/icons";
+import Spinner from "../Spinner";
+import { getAllUsers } from "../../util/api-call";
 
 const UsersBanner = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         marginBottom: 16,
-        width: '100%',
-        borderRadius: '5',
-        backgroundColor: '#f2f2f2',
-        padding: '50px 20px',
+        width: "100%",
+        borderRadius: "5",
+        backgroundColor: "#f2f2f2",
+        padding: "50px 20px",
       }}
     >
-      <Typography.Title level={3} style={{ marginBottom: '30px' }}>
+      <Typography.Title level={3} style={{ marginBottom: "30px" }}>
         Connect with Professionals
       </Typography.Title>
       <Row gutter={[16, 16]}>
@@ -42,8 +42,8 @@ const UsersBanner = () => {
           <Card>
             <UserOutlined
               style={{
-                fontSize: '32px',
-                marginBottom: '10px',
+                fontSize: "32px",
+                marginBottom: "10px",
               }}
             />
             <Typography.Title level={5}>Find Users</Typography.Title>
@@ -58,9 +58,9 @@ const UsersBanner = () => {
           <Card>
             <MessageOutlined
               style={{
-                fontSize: '32px',
-                marginBottom: '10px',
-                color: '#52c41a',
+                fontSize: "32px",
+                marginBottom: "10px",
+                color: "#52c41a",
               }}
             />
             <Typography.Title level={5}>Messaging</Typography.Title>
@@ -73,9 +73,9 @@ const UsersBanner = () => {
           <Card>
             <UsergroupAddOutlined
               style={{
-                fontSize: '32px',
-                marginBottom: '10px',
-                color: '#faad14',
+                fontSize: "32px",
+                marginBottom: "10px",
+                color: "#faad14",
               }}
             />
             <Typography.Title level={5}>Collaborate</Typography.Title>
@@ -87,56 +87,56 @@ const UsersBanner = () => {
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 const UserPage = () => {
-  const [usersData, setUsersData] = useState(null)
-  const [filteredUsers, setFilteredUsers] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [current, setCurrent] = useState(1)
-  const [searchInput, setSearchsearchInput] = useState('')
+  const [usersData, setUsersData] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [current, setCurrent] = useState(1);
+  const [searchInput, setSearchsearchInput] = useState("");
 
   useEffect(() => {
     // Do filtering here
     const filteredUsers = usersData?.filter((user) => {
-      return user.name.toLowerCase().includes(searchInput.toLowerCase())
-    })
+      return user.name.toLowerCase().includes(searchInput.toLowerCase());
+    });
 
-    setFilteredUsers(filteredUsers)
-  }, [searchInput])
+    setFilteredUsers(filteredUsers);
+  }, [searchInput]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const startIndex = (current - 1) * 12
-  const endIndex = startIndex + 12
+  const startIndex = (current - 1) * 12;
+  const endIndex = startIndex + 12;
 
   const handleChange = (page) => {
-    setCurrent(page)
-  }
+    setCurrent(page);
+  };
   // api call to get users
   useEffect(() => {
     async function getUsers() {
       try {
-        setLoading(true)
-        const res = await getAllUsers()
-        console.log(res.data)
-        setUsersData(res.data)
-        setFilteredUsers(res.data)
-        setLoading(false)
+        setLoading(true);
+        const res = await getAllUsers();
+        console.log(res.data);
+        setUsersData(res.data);
+        setFilteredUsers(res.data);
+        setLoading(false);
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    getUsers()
-  }, [])
+    getUsers();
+  }, []);
 
   return (
     <>
       <div
         style={{
-          minHeight: '100vh',
-          padding: '20px 60px',
+          minHeight: "100vh",
+          padding: "20px 60px",
           // light blue background
         }}
       >
@@ -145,20 +145,20 @@ const UserPage = () => {
 
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
+            display: "flex",
+            justifyContent: "center",
             marginBottom: 30,
           }}
         >
           <Input
-            placeholder='Search User for connection or chat'
+            placeholder="Search User for connection or chat"
             style={{
               width: 900,
               fontSize: 18,
               height: 40,
 
-              borderRadius: '15px',
-              color: '#000',
+              borderRadius: "15px",
+              color: "#000",
             }}
             onChange={(e) => setSearchsearchInput(e.target.value)}
           />
@@ -171,39 +171,39 @@ const UserPage = () => {
             {filteredUsers.length === 0 ? (
               <div
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '300px',
-                  width: '100%',
-                  fontSize: '18px',
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: "300px",
+                  width: "100%",
+                  fontSize: "18px",
                   // dark blue
-                  color: '#0000ff',
+                  color: "#0000ff",
                 }}
               >
                 <Divider />
                 <h1
                   style={{
-                    fontSize: '26px',
-                    marginBottom: '20px',
-                    color: 'black',
+                    fontSize: "26px",
+                    marginBottom: "20px",
+                    color: "black",
                   }}
                 >
                   No Results Found
                 </h1>
-                <p style={{ fontSize: '18px' }}>
+                <p style={{ fontSize: "18px" }}>
                   Try adjusting your search filters
                 </p>
 
                 <Button
-                  type='primary'
+                  type="primary"
                   style={{
-                    width: '200px',
-                    height: '50px',
+                    width: "200px",
+                    height: "50px",
                   }}
                   onClick={() => {
-                    setSearchsearchInput('')
+                    setSearchsearchInput("");
                   }}
                 >
                   Reset Filters
@@ -214,11 +214,11 @@ const UserPage = () => {
                 <Row
                   gutter={[16, 16]}
                   style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '30px',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "30px",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   {filteredUsers
@@ -231,43 +231,43 @@ const UserPage = () => {
                         lg={5}
                         key={index}
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          border: '1px solid #f2f2f2',
-                          gap: '10px',
-                          padding: '20px 10px',
-                          boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          border: "1px solid #f2f2f2",
+                          gap: "10px",
+                          padding: "20px 10px",
+                          boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                         }}
                       >
                         <img
                           src={`data:image/jpeg;base64, ${user.photo}`}
-                          alt='user'
+                          alt="user"
                           style={{
-                            width: '200px',
-                            height: '200px',
-                            objectFit: 'cover',
-                            marginTop: '20px',
-                            borderRadius: '5px',
+                            width: "200px",
+                            height: "200px",
+                            objectFit: "cover",
+                            marginTop: "20px",
+                            borderRadius: "5px",
                           }}
                         />
                         <h5
                           style={{
-                            fontsize: '20px',
+                            fontsize: "20px",
                           }}
                         >
                           {user.name}
                         </h5>
                         <Button
-                          type='primary'
+                          type="primary"
                           block
                           style={{
-                            width: '80%',
-                            marginBottom: '20px',
+                            width: "80%",
+                            marginBottom: "20px",
                           }}
                           onClick={() => {
-                            navigate(`/user/profile/${user._id}`)
+                            navigate(`/user/profile/${user._id}`);
                           }}
                         >
                           View Profile
@@ -277,9 +277,9 @@ const UserPage = () => {
                 </Row>
                 <Pagination
                   style={{
-                    marginTop: '25px',
-                    textAlign: 'center',
-                    marginBottom: '16px',
+                    marginTop: "25px",
+                    textAlign: "center",
+                    marginBottom: "16px",
                   }}
                   current={current}
                   onChange={handleChange}
@@ -293,7 +293,7 @@ const UserPage = () => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserPage
+export default UserPage;

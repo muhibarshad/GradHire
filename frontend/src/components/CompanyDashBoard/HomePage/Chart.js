@@ -1,78 +1,98 @@
-import React from 'react'
-import { Row, Col, Divider } from 'antd'
-import Chart from 'react-apexcharts'
+import React from "react";
+import { Row, Col, Divider } from "antd";
+import Chart from "react-apexcharts";
+
 const ChartComponent = ({ data, jobs }) => {
-  console.log(data, jobs)
   const doughnutData = {
     options: {
       chart: {
-        type: 'donut',
+        type: "donut",
       },
-      labels: ['Jobs Posted', 'Followers', 'Reviews', 'Applicants'],
+      labels: ["Jobs Posted", "Followers", "Reviews", "Applicants"],
+      legend: {
+        position: "bottom",
+      },
     },
-
     series: [data.jobs, data.followers, data.reviews, data.applicants],
-  }
+  };
 
   const barData = {
     options: {
       chart: {
-        type: 'bar',
+        type: "bar",
       },
       xaxis: {
-        // Specify the job titles here
         categories: jobs.map((job) => job.title),
+        labels: {
+          rotate: -45,
+          style: {
+            fontSize: "10px",
+          },
+        },
       },
       yaxis: {
         title: {
-          text: 'Number of Applicants',
+          text: "Number of Applicants",
         },
       },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "90%", // Increase column width
+        },
+      },
+      legend: {
+        position: "bottom",
+      },
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            chart: {
+              height: 300, // Ensure chart is not squeezed
+            },
+          },
+        },
+      ],
     },
     series: [
       {
-        name: 'Applicants',
-        // Specify the number of applicants here
+        name: "Applicants",
         data: jobs.map((job) => job.noOfApplicants),
       },
     ],
-    colors: ['#FF6384', '#36A2EB'],
-  }
+  };
 
   return (
-    <Row
-      style={{
-        display: 'flex',
-      }}
-    >
-      <Col lg={11} md={24} sm={24}>
+    <Row gutter={[16, 16]} justify="center" style={{ width: "100%" }}>
+      <Col xs={24} sm={24} md={10}>
         <Chart
           options={doughnutData.options}
           series={doughnutData.series}
-          type='donut'
-          width='500'
+          type="donut"
+          width="100%"
         />
       </Col>
-      <Col lg={2} md={0} sm={0} className='basicFlexRow'>
+      <Col xs={0} sm={0} md={2} className="basicFlexRow">
         <Divider
-          type='vertical'
+          type="vertical"
           style={{
-            backgroundColor: 'red',
-            height: '100%',
+            backgroundColor: "red",
+            height: "100%",
           }}
         />
       </Col>
-
-      <Col lg={11} md={24} sm={24}>
+      <Col xs={24} sm={24} md={10}>
         <Chart
           options={barData.options}
           series={barData.series}
-          type='bar'
-          width='500'
+          type="bar"
+          width="100%"
+          height="300"
         />
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default ChartComponent
+export default ChartComponent;
