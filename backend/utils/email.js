@@ -1,16 +1,16 @@
-// Description: This file is used to send email to the user
 const nodeMailer = require('nodemailer');
 
 // Options for email
 const emailOptions = {
-  host: '',
+  host: '', // Default to Mailtrap for development
   port: 587,
   auth: {
-    user: '',
-    pass: ''
+    user: '', // Mailtrap credentials from .env
+    pass: '', // Mailtrap password from .env
   }
 };
-// Set options for email based on the environment
+
+// Set options for email based on the environment (production or development)
 const setOptions = (host, port, user, pass) => {
   emailOptions.host = host;
   emailOptions.port = port;
@@ -19,41 +19,44 @@ const setOptions = (host, port, user, pass) => {
 };
 
 // Send email
-const sendEmail = async options => {
-  // 1. if production
+const sendEmail = async (options) => {
+  // Check if environment is production
   if (process.env.NODE_ENV === 'production') {
-   
     setOptions(
-      process.env.EMAIL_HOST,
-      process.env.EMAIL_PORT,
-      process.env.EMAIL_USERNAME,
-      process.env.EMAIL_PASSWORD
+      process.env.EMAIL_HOST,      // Gmail SMTP host
+      process.env.EMAIL_PORT,      // Gmail SMTP port
+      process.env.EMAIL_USERNAME,  // Gmail username (Email)
+      process.env.EMAIL_PASSWORD   // Gmail password or app password
     );
   }
-  // 2. if development
+
+  // If environment is development (using Mailtrap)
   if (process.env.NODE_ENV === 'development') {
     setOptions(
-      process.env.EMAIL_HOST,
-      process.env.EMAIL_PORT,
-      process.env.EMAIL_USERNAME,
-      process.env.EMAIL_PASSWORD
+      process.env.MAIL_TRAP_HOST,      // Mailtrap SMTP host
+      process.env.MAIL_TRAP_PORT,      // Mailtrap SMTP port
+      process.env.MAIL_TRAP_USERNAME,  // Mailtrap username
+      process.env.MAIL_TRAP_PASSWORD   // Mailtrap password
     );
-    // process.env.MAIL_TRAP_HOST,
-    // process.env.MAIL_TRAP_PORT,
-    // process.env.MAIL_TRAP_USERNAME,
-    // process.env.MAIL_TRAP_PASSWORD
   }
+
   const transporter = nodeMailer.createTransport(emailOptions);
 
   const mailOptions = {
-    from: 'GradHire',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    html: options.html
+    from: 'Gradhire <gradhire.fydp@gmail.com>',  // Sender email
+    to: options.email, // Recipient email
+    subject: options.subject, // Subject of the email
+    text: options.message,    // Plain text content
+    html: options.html        // HTML content
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    // Send email using the transporter
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    console.error('Error sending email:', err);
+    throw new Error('There was an error sending the email. Please try again later.');
+  }
 };
 
 module.exports = sendEmail;

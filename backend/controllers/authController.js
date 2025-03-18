@@ -58,7 +58,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   try {
     sendEmail({
       email: newUser.email,
-      subject: 'Recruuit - Verify your email',
+      subject: 'GradHire - Verify your email',
       message,
       html
     });
