@@ -23,8 +23,8 @@ const Chat = () => {
   const conversationList = [
     {
       id: 1,
-      name: "John",
-      lastSenderName: "John",
+      name: "Muhib",
+      lastSenderName: "Muhib",
       info: "Yes, I can do it for you",
       active: true,
       avatar: "https://www.w3schools.com/howto/img_avatar.png",
@@ -32,8 +32,8 @@ const Chat = () => {
     },
     {
       id: 2,
-      name: "Alice",
-      lastSenderName: "Alice",
+      name: "Bilal",
+      lastSenderName: "Bilal",
       info: "Sure, no problem",
       active: false,
       avatar: "https://www.w3schools.com/howto/img_avatar.png",
@@ -41,8 +41,8 @@ const Chat = () => {
     },
     {
       id: 3,
-      name: "Bob",
-      lastSenderName: "Bob",
+      name: "Faiz",
+      lastSenderName: "Faiz",
       info: "I'm busy right now",
       active: false,
       avatar: "https://www.w3schools.com/howto/img_avatar.png",
@@ -50,8 +50,8 @@ const Chat = () => {
     },
     {
       id: 4,
-      name: "Alias",
-      lastSenderName: "Bob",
+      name: "Shafqat",
+      lastSenderName: "Muhib",
       info: "How are you?",
       active: true,
       avatar: "https://www.w3schools.com/howto/img_avatar.png",
