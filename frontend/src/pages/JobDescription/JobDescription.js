@@ -139,40 +139,61 @@ function JobDescription() {
   }
 
   const handleApplyClick = async () => {
-    // if user did not uploaded his resume
-    //console.log(user.user.resume)
-    if (!user.user.resume) {
-      messageApi.error('Please upload your resume first')
-      return
+    // Check if the user has uploaded a resume
+    if (!user.user.resume || !user.user.resume.other || !user.user.resume.other.skills) {
+      messageApi.error('Please upload your resume with valid skills');
+      return;
     }
+  
+    // Extract skills from user resume (convert to array)
+    const userSkills = user.user.resume.other.skills
+      .split(' ')  // or you can split by commas if the skills are separated by commas
+      .map(skill => skill.trim());  // Clean up any extra spaces
+  
+    const jobSkills = job.skills || [];
+  
+    // Find the common skills between the user and job
+    const commonSkills = userSkills.filter(skill => jobSkills.includes(skill));
+  
+    // Calculate the percentage of matching skills
+    const matchPercentage = (commonSkills.length / jobSkills.length) * 100;
+  
+    // Check if the match is greater than or equal to 50%
+    if (matchPercentage < 50) {
+      messageApi.error('Your skills do not match the job requirements. Application discarded.');
+      return;
+    }
+  
     try {
-      setLoading(true)
+      setLoading(true);
       const data = {
         job: job._id,
         user: user.id,
-      }
-
-      const res = await postApplication(data)
-
+      };
+  
+      // Post the application
+      const res = await postApplication(data);
+  
       if (res.status === 'success') {
-        const res2 = await applyJob(job._id)
+        const res2 = await applyJob(job._id);
         messageApi.open({
           type: 'success',
           content: 'You have applied to this job successfully!',
-        })
-
-        setTimeout(setLoading(false), 1000)
-        setTimeout(setApplications([...applications, res.data]), 1000)
-      } else messageApi.error('Error applying to job')
-
-      // API
+        });
+  
+        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setApplications([...applications, res.data]), 1000);
+      } else {
+        messageApi.error('Error applying to job');
+      }
     } catch (err) {
-      setLoading(false)
-      console.log(err)
-      messageApi.error('Error applying to job')
-      setLoading(false)
+      setLoading(false);
+      console.log(err);
+      messageApi.error('Error applying to job');
+      setLoading(false);
     }
-  }
+  };
+  
 
   if (!job || loading || !user) return <Spinner />
 
