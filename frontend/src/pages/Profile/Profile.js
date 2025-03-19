@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Typography, Col, Row, Divider, Button, Avatar, Card } from 'antd'
-
-import Education from './EducationComponent'
 import {
   UserOutlined,
   MailOutlined,
   EnvironmentOutlined,
   PhoneOutlined,
+  MessageOutlined,
+  UploadOutlined
 } from '@ant-design/icons'
+import Education from './EducationComponent'
 import Spinner from '../Spinner'
 import { getUser } from '../../util/api-call'
 import { useSelector } from 'react-redux'
@@ -16,24 +17,18 @@ import ProfessionalExperience from './WorkExperienceComponent'
 import Projects from './ProjectsComponent'
 import Achievements from './AchievementComponent'
 import Skills from './SkillsComponent'
-
 import { useParams } from 'react-router-dom'
 
-const { Title, Text } = Typography
+const { Title, Text, Paragraph } = Typography
 
 const Profile = ({ profileId }) => {
   const [profile, setProfile] = useState('')
   const [loading, setLoading] = useState(true)
   const user = useSelector((state) => state.user)
   const navigate = useNavigate()
-  // take id from props if not then from url params
-
   const params = useParams()
   let id = profileId ? profileId : params.id
-
   const [currentUserId, setCurrentUserId] = useState(false)
-
-  // check if user is logged in
 
   useEffect(() => {
     getUser(id)
@@ -50,148 +45,154 @@ const Profile = ({ profileId }) => {
 
   const BasicInfo = () => {
     return (
-      <Row justify='center'>
-        <Col>
-          <Row
-            justify='center'
-            style={{
-              marginTop: '30px',
-              marginBottom: '10px',
-              fontSize: '20px',
-            }}
-          >
-            <Avatar
-              src={`data:image/jpeg;base64, ${profile.photo}`}
-              size={150}
-              icon={<UserOutlined />}
-            />
-          </Row>
-          <Row
-            justify='center'
-            style={{
-              marginTop: '10px',
-              marginBottom: '10px',
-              fontSize: '20px',
-            }}
-          >
-            <Title level={3}>{profile.name}</Title>
-          </Row>
-
-          <Row className='basicFlexRow'>
-            {profile.address && (
-              <Col className='basicFlexRow' gap='20px'>
-                <EnvironmentOutlined
-                  style={{ fontSize: '16px', color: '#08c' }}
-                />{' '}
-                <span> {profile.address}</span>
-              </Col>
-            )}
-
-            <Col className='basicFlexRow'>
-              <MailOutlined style={{ fontSize: '16px', color: '#08c' }} />{' '}
-              <span> {profile.email}</span>
-            </Col>
-
-            {profile.phoneNo && (
-              <Col className='basicFlexRow'>
-                <PhoneOutlined style={{ fontSize: '16px', color: '#08c' }} />{' '}
-                <span> {profile.phoneNo}</span>
-              </Col>
-            )}
-          </Row>
-
-          {/* Chat */}
-          {!currentUserId && (
-            <Row justify='center'>
-              <Button
-                type='primary'
-                onClick={() => {
-                  navigate('/user/chat')
+      <Card 
+        style={{ 
+          width: '100%', 
+          marginBottom: '2rem',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+        }}
+      >
+        <Row gutter={[24, 24]} justify='center' align='middle'>
+          <Col xs={24} sm={24} md={10} lg={8} xl={8}>
+            <div style={{ 
+              textAlign: 'center',
+              padding: { xs: '1rem', sm: '1.5rem', md: '2rem' }
+            }}>
+              <Avatar
+                src={`data:image/jpeg;base64, ${profile.photo}`}
+                size={{ xs: 120, sm: 150, md: 400, lg: 350, xl: 500 }}
+                icon={<UserOutlined />}
+                style={{ 
+                  marginBottom: '1.5rem',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                 }}
-                style={{ margin: '20px 0 0 0', padding: '0 20px' }}
-              >
-                {/* Icon */}
-                Message
-              </Button>
+              />
+              <Title level={2} style={{ margin: 0, marginTop: '0.5rem' }}>{profile.name}</Title>
+            </div>
+          </Col>
+          
+          <Col xs={24} sm={24} md={14} lg={16} xl={16}>
+            <Row gutter={[16, 16]}>
+              {profile.address && (
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <EnvironmentOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+                    <Text style={{ fontSize: '16px' }}>{profile.address}</Text>
+                  </div>
+                </Col>
+              )}
+              
+              <Col xs={24} sm={24} md={12} lg={12}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <MailOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+                  <Text style={{ fontSize: '16px' }}>{profile.email}</Text>
+                </div>
+              </Col>
+
+              {profile.phoneNo && (
+                <Col xs={24} sm={24} md={12} lg={12}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <PhoneOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+                    <Text style={{ fontSize: '16px' }}>{profile.phoneNo}</Text>
+                  </div>
+                </Col>
+              )}
             </Row>
-          )}
-        </Col>
-      </Row>
+
+            {!currentUserId && (
+              <Row style={{ marginTop: '1.5rem' }}>
+                <Col>
+                  <Button
+                    type='primary'
+                    icon={<MessageOutlined />}
+                    onClick={() => navigate('/user/chat')}
+                    size="large"
+                  >
+                    Message
+                  </Button>
+                </Col>
+              </Row>
+            )}
+          </Col>
+        </Row>
+      </Card>
     )
   }
 
   if (loading) return <Spinner />
+
   return (
-    <div
-      style={{
-        margin: '0 0 0 0',
-        padding: '0 50px',
-      }}
-    >
+    <div style={{ 
+      padding: { xs: '1rem', sm: '1.5rem', md: '2rem' },
+      maxWidth: '1200px',
+      margin: '0 auto'
+    }}>
       <BasicInfo />
 
-      {/* If  no resume is uploaded */}
       {profile.resume === null ? (
-        <Row justify='center'>
-          <Divider />
-          <Col span={8}>
-            <Row justify='center'>
-              <Title level={4}>No Resume Uploaded</Title>
-            </Row>
-            <Row justify='center'>
-              {currentUserId && (
-                <Button
-                  type='primary'
-                  onClick={() => {
-                    navigate('/user/uploadResume')
-                  }}
-                >
-                  Upload Resume
-                </Button>
-              )}
-            </Row>
-          </Col>
-        </Row>
+        <Card style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <Title level={4}>No Resume Uploaded</Title>
+          {currentUserId && (
+            <Button
+              type='primary'
+              icon={<UploadOutlined />}
+              onClick={() => navigate('/user/uploadResume')}
+              style={{ marginTop: '1rem' }}
+            >
+              Upload Resume
+            </Button>
+          )}
+        </Card>
       ) : (
-        <div className='basicFlexColumn'>
-          <Divider />
-          {/* Title and Summary */}
-          <div>
-            <Row justify='center'>
-              <Col>
-                <Row justify='center'>
-                  <Title
-                    level={3}
-                    style={{
-                      color: '#08c',
-                    }}
-                  >
-                    {profile.resume.title}
-                  </Title>
-                </Row>
-              </Col>
-            </Row>
+        <div>
+          <Card 
+            style={{ 
+              marginBottom: '2rem',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+            }}
+          >
+            <Title 
+              level={3} 
+              style={{
+                color: '#1890ff',
+                textAlign: 'center',
+                marginBottom: '1rem'
+              }}
+            >
+              {profile.resume.title}
+            </Title>
+            <Paragraph style={{ textAlign: 'center' }}>
+              {profile.resume.summary}
+            </Paragraph>
+          </Card>
 
-            <Row>
-              <Col>
-                <Row justify='center'>
-                  <Text>{profile.resume.summary}</Text>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-          <Divider />
-
-          <Education education={profile.resume.CV.education} />
-          <Divider />
-          <ProfessionalExperience experience={profile.resume.CV.workExp} />
-          <Divider />
-          <Projects projects={profile.resume.CV.project} />
-          <Divider />
-          <Achievements achievements={profile.resume.CV.achievement} />
-          <Divider />
-          <Skills skills={profile?.resume?.CV?.other?.skills || []} />
-<Divider />
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={12}>
+              <Card style={{ height: '100%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <Education education={profile.resume.CV.education} />
+              </Card>
+            </Col>
+            <Col xs={24} lg={12}>
+              <Card style={{ height: '100%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <ProfessionalExperience experience={profile.resume.CV.workExp} />
+              </Card>
+            </Col>
+            <Col xs={24} lg={12}>
+              <Card style={{ height: '100%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <Projects projects={profile.resume.CV.project} />
+              </Card>
+            </Col>
+            <Col xs={24} lg={12}>
+              <Card style={{ height: '100%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <Achievements achievements={profile.resume.CV.achievement} />
+              </Card>
+            </Col>
+            <Col xs={24}>
+              <Card style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <Skills skills={profile?.resume?.CV?.other?.skills || []} />
+              </Card>
+            </Col>
+          </Row>
         </div>
       )}
     </div>
