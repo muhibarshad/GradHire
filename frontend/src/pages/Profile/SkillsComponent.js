@@ -1,11 +1,15 @@
-import React from 'react'
-import { Typography, Row, Col, Tag } from 'antd'
-import { ToolOutlined } from '@ant-design/icons'
+import React from 'react';
+import { Typography, Row, Col, Tag } from 'antd';
+import { ToolOutlined } from '@ant-design/icons';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
-const Skills = ({ skills }) => {
-  if (!skills || skills.length === 0) {
+const Skills = ({ skills = [] }) => {
+  if (typeof skills === 'string') {
+    skills = skills.split(',').map(skill => skill.trim());
+  }
+
+  if (!Array.isArray(skills) || skills.length === 0) {
     return (
       <div style={{ textAlign: 'center' }}>
         <Title level={4} style={{ color: '#1890ff', marginBottom: '1rem' }}>
@@ -14,7 +18,7 @@ const Skills = ({ skills }) => {
         </Title>
         <Text type="secondary">No skills listed</Text>
       </div>
-    )
+    );
   }
 
   return (
@@ -40,7 +44,8 @@ const Skills = ({ skills }) => {
         ))}
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;
+
