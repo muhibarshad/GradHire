@@ -32,15 +32,6 @@ const questions = [
     correct: 'Inheritance',
   },
   {
-    statement: 'What is your name?',
-    A: 'Abdullah',
-    B: 'Talha',
-    C: 'Fizza',
-    D: 'Abid',
-    correct: 'Abid',
-  },
-
-  {
     statement: 'What are you learning?',
     A: 'Java',
     B: 'No Java',
