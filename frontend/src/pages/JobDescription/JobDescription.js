@@ -148,12 +148,13 @@ function JobDescription() {
     // Extract skills from user resume (convert to array)
     const userSkills = user.user.resume.other.skills
       .split(' ')  // or you can split by commas if the skills are separated by commas
-      .map(skill => skill.trim());  // Clean up any extra spaces
+      .map(skill => skill.trim().toLowerCase());  // Clean up any extra spaces
   
     const jobSkills = job.skills || [];
+    const jS = jobSkills.map(skill=>skill.toLowerCase());
   
     // Find the common skills between the user and job
-    const commonSkills = userSkills.filter(skill => jobSkills.includes(skill));
+    const commonSkills = userSkills.filter(skill => jS.includes(skill));
   
     // Calculate the percentage of matching skills
     const matchPercentage = (commonSkills.length / jobSkills.length) * 100;
