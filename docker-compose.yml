@@ -1,9 +1,7 @@
-version: "2.2"
+version: "3.8"
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: muhibarshad/gradhire_backend:latest
     ports:
       - "3001:3001"
     environment:
@@ -27,10 +25,9 @@ services:
       - mern-network
 
   frontend:
-    build:
-      context: ./frontend
+    image: muhibarshad/gradhire_frontend:latest
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
     networks:
@@ -42,6 +39,8 @@ services:
       - mongo-data:/data/db
     networks:
       - mern-network
+    ports:
+      - "27017:27017"
 
 volumes:
   mongo-data:
