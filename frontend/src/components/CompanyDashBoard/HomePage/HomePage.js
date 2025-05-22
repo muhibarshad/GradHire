@@ -33,12 +33,18 @@ const HomePage = () => {
         const res = await getCompany(user.companyID);
         if (res.status === "success") {
           const mcompany = res.data;
+          console.log(mcompany.jobs);
           setJobs(res.data.jobs);
           dispatch(setCopmany({ company: res.data }));
 
           let jobs = mcompany.jobs.length;
           let reviews = mcompany.reviews.length;
-          let applicants = mcompany.jobs.reduce((acc) => acc + 2, 0);
+        let applicants = mcompany.jobs.reduce(
+          (acc, job) =>
+            acc +
+            (Number.isInteger(job.noOfApplicants) ? job.noOfApplicants : 0),
+          0
+        );
           let followers = mcompany.followers.length;
           let clicks = mcompany.jobs.reduce(
             (acc, job) => acc + job.noOfClicks,

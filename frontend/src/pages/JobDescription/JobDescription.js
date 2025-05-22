@@ -140,8 +140,8 @@ function JobDescription() {
 
   const handleApplyClick = async () => {
     console.log("Resume Data: ", user.user.resume);
-    // console.log("Other Resume Data: ", user.user.resume.CV.other);
-    // console.log("Other Resume Data: ", user.user.resume.CV.other.skills);
+    console.log("Other Resume Data: ", user.user.resume.CV.other);
+    console.log("Other Resume Data: ", user.user.resume.CV.other.skills);
 
 
     if (

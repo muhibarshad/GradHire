@@ -3,6 +3,7 @@ import { Row, Col, Divider } from "antd";
 import Chart from "react-apexcharts";
 
 const ChartComponent = ({ data, jobs }) => {
+  console.log(data);
   const doughnutData = {
     options: {
       chart: {
