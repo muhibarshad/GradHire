@@ -7,7 +7,9 @@ import {
   Divider,
   Badge,
   notification,
+  
   Tooltip,
+  Modal
 } from "antd";
 import {
   MessageOutlined,
@@ -15,10 +17,12 @@ import {
   HeartOutlined,
   UserOutlined,
   LogoutOutlined,
+  TableOutlined,  
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { logoutSuccess } from "../redux/user";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import { getFavourites } from "../util/api-call";
@@ -56,6 +60,23 @@ const Header = ({ drawer }) => {
     Drop Down Items
     Starts Here
   */
+  // inside your Header component:
+  const handleLogout = () => {
+    let modal = null;
+
+    modal = Modal.confirm({
+      title: "Are you sure you want to logout?",
+      okText: "Logout",
+      cancelText: "Cancel",
+      onOk() {
+        dispatch(logoutSuccess()); // clear Redux + localStorage
+        modal.destroy(); // immediately close this confirm
+        drawer.current?.close(); // close sidebar
+        navigate("/login", { replace: true }); // go to login
+      },
+    });
+  };
+
   const items = favoriteJobs.map((job, index) => ({
     key: job.id, // Use a unique identifier for the key
     label: (
@@ -157,59 +178,12 @@ const Header = ({ drawer }) => {
         </Link>
       ),
     },
+    { type: "divider" },
     {
       key: "logout",
-      label: (
-        <Link
-          to="/"
-          spy="true"
-          smooth="true"
-          offset={-90}
-          duration={500}
-          onClick={() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("role");
-            localStorage.removeItem("companyID");
-            navigate("/");
-          }}
-        >
-          <>
-            <Divider
-              style={{
-                margin: "0.5rem 0",
-              }}
-            />
-            <div
-              className="text-gray-600 dark:text-gray-400 text-sm font-medium flex items-center"
-              onClick={() => {
-                drawer.current.close();
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                localStorage.removeItem("role");
-                localStorage.removeItem("companyID");
-                navigate("/");
-              }}
-            >
-              <LogoutOutlined
-                style={{
-                  marginRight: "10px",
-                  color: "#ff4d4f",
-                }}
-              />
-
-              <span
-                style={{
-                  color: "#ff4d4f",
-                  fontSize: "14px",
-                }}
-              >
-                Logout
-              </span>
-            </div>
-          </>
-        </Link>
-      ),
+      icon: <LogoutOutlined style={{ color: "#ff4d4f" }} />,
+      label: "Logout",
+      onClick: handleLogout, // ← this shows the modal and logs out
     },
   ];
 
@@ -514,6 +488,21 @@ const Header = ({ drawer }) => {
                   }}
                 >
                   Companies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="block py-2 px-3 text-gray-700 rounded border-gray-100 hover:bg-gray-50 md:bg-white md:border-0 md:hover:text-blue-700 md:p-0 "
+                  to="compare"
+                  spy="true"
+                  smooth="true"
+                  offset={-90}
+                  duration={500}
+                  onClick={() => {
+                    navigate("compare");
+                  }}
+                >
+                  Compare
                 </Link>
               </li>
 

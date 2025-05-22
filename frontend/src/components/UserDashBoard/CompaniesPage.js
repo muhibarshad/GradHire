@@ -160,9 +160,13 @@ const CompanyList = () => {
         company.address.toLowerCase().includes(locationFilter.toLowerCase())
       );
     }
-    if (sizeFilter) {
-      tempData = tempData.filter((company) => company.size > sizeFilter);
-    }
+   if (sizeFilter) {
+     // sizeFilter is e.g. "11-50"
+     const [min, max] = sizeFilter.split("-").map(Number);
+     tempData = tempData.filter(
+       (company) => company.size >= min && company.size <= max
+     );
+   }
     if (typeFilter) {
       tempData = tempData.filter((company) => company.type === typeFilter);
     }
@@ -296,11 +300,11 @@ const CompanyList = () => {
               size={screens.xs ? "middle" : "large"}
             >
               <Option value="all">All Sizes</Option>
-              <Option value="10">0-10 Employees</Option>
-              <Option value="50">11-50 Employees</Option>
-              <Option value="200">51-200 Employees</Option>
-              <Option value="500">201-500 Employees</Option>
-              <Option value="501">501+ Employees</Option>
+             + <Option value="0-10">0-10 Employees</Option>
++ <Option value="11-50">11-50 Employees</Option>
++ <Option value="51-200">51-200 Employees</Option>
++ <Option value="201-500">201-500 Employees</Option>
++ <Option value="501-9999">501+ Employees</Option>
             </Select>
           </Col>
         </Row>

@@ -5,7 +5,8 @@ import { Col, Row, Button, Divider, message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { getJob } from "../../../util/api-call";
+  
+import { getJob, getApplicationByJob } from "../../../util/api-call";
 import Spinner from "../../../pages/Spinner";
 
 const JobDetails = () => {
@@ -14,6 +15,7 @@ const JobDetails = () => {
 
   const { id } = useParams();
   const [isChange, setIsChange] = useState(false);
+  const [haveApplicant,setHaveApplicants]=useState(false);
 
   const [job, setJob] = useState(null);
   //console.log(isChange, id)
@@ -27,8 +29,12 @@ const JobDetails = () => {
     const getJobData = async () => {
       try {
         const res = await getJob(id);
-        //console.log(res)
+        const res1 = await getApplicationByJob(id);
+        setHaveApplicants(res1.data.data.length)
+
+        console.log(res1.data.data.length);
         if (res.status === "success") {
+          console.log(res);
           setJob(res.data);
         } else {
           message.error(res.message);
@@ -59,17 +65,17 @@ const JobDetails = () => {
       <Button
         type="primary"
         onClick={() => {
-          // set job id in local storage
           localStorage.setItem("currentJob", job._id);
           navigate(`/company/applicants/${id}`);
         }}
+        disabled={haveApplicant === 0}
         style={{
           margin: "20px 0 0 0",
           padding: "0 20px",
           width: "100%",
         }}
       >
-        View Applicants
+         View Applicants
       </Button>
     </div>
   );

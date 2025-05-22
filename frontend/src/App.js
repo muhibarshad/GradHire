@@ -1,62 +1,109 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
-import { BrowserRouter } from 'react-router-dom'
-import './App.css'
-import { lazy, Suspense } from 'react'
+// src/App.jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CssBaseline, StyledEngineProvider } from "@mui/material";
+import { Suspense, lazy } from "react";
 
-import { CssBaseline, StyledEngineProvider } from '@mui/material'
+import Spinner from "./pages/Spinner";
+import { PrivateRoute, PublicRoute } from "./routes/authRoutes";
 
-import Spinner from './pages/Spinner'
-import LoginForm from './pages/Login/index'
-const SignUp = lazy(() => import('./pages/Signup/SignUp'))
-
-const ResetPassword = lazy(() => import('./pages/ForgetPassword/ResetPassword'))
-const PageNotFound = lazy(() => import('./pages/ErrorTemplates/PageNotFound'))
-const DashBoard = lazy(() => import('./pages/UserDashBoard/DashBoard'))
-const EmailOtp = lazy(() =>
-  import('./pages/EmailandPhoneConfirmation/EmailOtp')
-)
-
-const CompanyDashBoard = lazy(() =>
-  import('./pages/CompanyDashboard/Dashboard')
-)
-const LandingPage = lazy(() => import('./pages/LandingPage/Landing'))
-
+import LoginForm from "./pages/Login";
+const SignUp = lazy(() => import("./pages/Signup/SignUp"));
+const ResetPassword = lazy(() =>
+  import("./pages/ForgetPassword/ResetPassword")
+);
 const ForgetPassword = lazy(() =>
-  import('./pages/ForgetPassword/ForgetPassword')
-)
+  import("./pages/ForgetPassword/ForgetPassword")
+);
+const EmailOtp = lazy(() =>
+  import("./pages/EmailandPhoneConfirmation/EmailOtp")
+);
+const DashBoard = lazy(() => import("./pages/UserDashBoard/DashBoard"));
+const CompanyDash = lazy(() => import("./pages/CompanyDashboard/Dashboard"));
+const LandingPage = lazy(() => import("./pages/LandingPage/Landing"));
+const PageNotFound = lazy(() => import("./pages/ErrorTemplates/PageNotFound"));
 
 function App() {
   return (
     <>
       <CssBaseline />
-
       <StyledEngineProvider>
         <Suspense fallback={<Spinner />}>
           <Routes>
-            {/* Authentication */}
-            <Route path='/' exact element={<LandingPage />} />
-            <Route path='/signup' exact element={<SignUp />} />
-            <Route path='/login' exact element={<LoginForm />} />
-            <Route path='/verifyEmail' exact element={<EmailOtp />} />
-            <Route path='/forgetPassword' exact element={<ForgetPassword />} />
+            {/* Public routes: only visible if NOT authenticated */}
             <Route
-              path='/resetPassword/:token'
-              exact
-              element={<ResetPassword />}
+              path="/"
+              element={
+                <PublicRoute>
+                  <LandingPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginForm />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <SignUp />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/verifyEmail"
+              element={
+                <PublicRoute>
+                  <EmailOtp />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/forgetPassword"
+              element={
+                <PublicRoute>
+                  <ForgetPassword />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/resetPassword/:token"
+              element={
+                <PublicRoute>
+                  <ResetPassword />
+                </PublicRoute>
+              }
             />
 
-            {/* User Routes */}
-            <Route path='user/*' exact element={<DashBoard />} />
+            {/* Private routes: only visible if authenticated */}
+            <Route
+              path="user/*"
+              element={
+                <PrivateRoute>
+                  <DashBoard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="company/*"
+              element={
+                <PrivateRoute>
+                  <CompanyDash />
+                </PrivateRoute>
+              }
+            />
 
-            <Route path='company/*' exact element={<CompanyDashBoard />} />
-
-            <Route path='/' exact element={<Navigate replace to='/login' />} />
-            <Route path='*' exact element={<PageNotFound />} />
+            {/* Fallback for 404s */}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Suspense>
       </StyledEngineProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

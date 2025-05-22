@@ -191,7 +191,7 @@ const PostJob = () => {
               >
                 <Select placeholder='Select a job mode'>
                   <Option value='Remote'>Remote</Option>
-                  <Option value='OnSite'>On-site</Option>
+                  <Option value='Onsite'>On-site</Option>
                   <Option value='Hybrid'>Hybrid</Option>
                 </Select>
               </Form.Item>

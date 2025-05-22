@@ -156,6 +156,7 @@ const JobsList = () => {
 
   const filterData = () => {
     let tempData = [...jobsData];
+    console.log(tempData)
 
     // If there is a search name, filter by name
     if (searchName) {
@@ -183,11 +184,23 @@ const JobsList = () => {
 
     // If there is a salary range filter, filter by salary range
     if (salaryRangeFilter) {
-      tempData = tempData.filter(
-        (company) =>
-          company.salary >= salaryRangeFilter[0] &&
-          company.salary <= salaryRangeFilter[1]
-      );
+      const { min, max } = salaryRangeFilter;
+      tempData = tempData.filter((job) => {
+        // Remove "$" and commas, then split on " to "
+        const cleaned = job.salaryRange.replace(/[\$,]/g, "");
+        let jobMin, jobMax;
+
+        if (cleaned.includes(" to ")) {
+          // Range case: "20000 to 35000"
+          [jobMin, jobMax] = cleaned.split(" to ").map((n) => Number(n));
+        } else {
+          // Single value: "$2000"
+          jobMin = jobMax = Number(cleaned);
+        }
+
+        // Keep jobs whose salary band overlaps the filter window
+        return jobMax >= min && jobMin <= max;
+      });
     }
 
     //set filtered data
@@ -220,16 +233,15 @@ const JobsList = () => {
     setTypeFilter(value);
   };
 
-  const handleSalaryRangeFilter = (value) => {
-    // if all is selected, remove the filter
-    if (value === "all") {
-      setSalaryRangeFilter(null);
-      return;
-    }
-    // split the value into min and max
-    const [min, max] = value.split("-");
-    setSalaryRangeFilter({ min, max });
-  };
+const handleSalaryRangeFilter = (value) => {
+  if (value === "all") {
+    setSalaryRangeFilter(null);
+    return;
+  }
+  // dropdown “value” is e.g. "0-10000", "10000-20000", etc.
+  const [min, max] = value.split("-").map((v) => Number(v));
+  setSalaryRangeFilter({ min, max });
+};
 
   const resetFilters = () => {
     setSearchName(null);
