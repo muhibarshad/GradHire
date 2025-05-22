@@ -53,90 +53,121 @@ const Profile = ({ profileId }) => {
         }}
       >
         <Row gutter={[24, 24]} justify="center" align="middle">
-          <Col xs={24} sm={24} md={10} lg={8} xl={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <div
               style={{
                 textAlign: "center",
-                padding: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+                padding: "1rem",
               }}
             >
               <Avatar
-                src={`data:image/jpeg;base64, ${profile.photo}`}
-                size={{ xs: 120, sm: 150, md: 170, lg: 170, xl: 170 }}
+                src={
+                  profile?.photo
+                    ? `data:image/jpeg;base64, ${profile.photo}`
+                    : undefined
+                }
+                size={{ xs: 100, sm: 120, md: 140, lg: 150, xl: 150 }}
                 icon={<UserOutlined />}
                 style={{
-                  marginBottom: "1.5rem",
+                  marginBottom: "1rem",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 }}
               />
-              <Title level={2} style={{ margin: 0, marginTop: "0.5rem" }}>
+              <Title
+                level={3}
+                style={{
+                  margin: 0,
+                  marginTop: "0.5rem",
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                  fontSize: "clamp(20px, 2.5vw, 24px)",
+                }}
+              >
                 {profile.name}
               </Title>
             </div>
           </Col>
 
-          <Col xs={24} sm={24} md={14} lg={16} xl={16}>
-            <Row gutter={[16, 16]}>
-              {profile.address && (
-                <Col xs={24} sm={24} md={24} lg={24}>
+          <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+            <div style={{ padding: "1rem" }}>
+              <Row gutter={[16, 16]} style={{ marginBottom: "1.5rem" }}>
+                {profile.address && (
+                  <Col xs={24}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      <EnvironmentOutlined
+                        style={{ fontSize: "20px", color: "#1890ff" }}
+                      />
+                      <Text style={{ fontSize: "16px" }}>
+                        {profile.address}
+                      </Text>
+                    </div>
+                  </Col>
+                )}
+
+                <Col xs={24} sm={12}>
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: "12px",
+                      wordBreak: "break-word",
                     }}
                   >
-                    <EnvironmentOutlined
+                    <MailOutlined
                       style={{ fontSize: "20px", color: "#1890ff" }}
                     />
-                    <Text style={{ fontSize: "16px" }}>{profile.address}</Text>
+                    <Text
+                      style={{ fontSize: "16px", overflowWrap: "anywhere" }}
+                    >
+                      {profile.email}
+                    </Text>
                   </div>
                 </Col>
-              )}
 
-              <Col xs={24} sm={24} md={12} lg={12}>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
-                >
-                  <MailOutlined
-                    style={{ fontSize: "20px", color: "#1890ff" }}
-                  />
-                  <Text style={{ fontSize: "16px" }}>{profile.email}</Text>
-                </div>
-              </Col>
-
-              {profile.phoneNo && (
-                <Col xs={24} sm={24} md={12} lg={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                    }}
-                  >
-                    <PhoneOutlined
-                      style={{ fontSize: "20px", color: "#1890ff" }}
-                    />
-                    <Text style={{ fontSize: "16px" }}>{profile.phoneNo}</Text>
-                  </div>
-                </Col>
-              )}
-            </Row>
-
-            {!currentUserId && (
-              <Row style={{ marginTop: "1.5rem" }}>
-                <Col>
-                  <Button
-                    type="primary"
-                    icon={<MessageOutlined />}
-                    onClick={() => navigate("/user/chat")}
-                    size="large"
-                  >
-                    Message
-                  </Button>
-                </Col>
+                {profile.phoneNo && (
+                  <Col xs={24} sm={12}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      <PhoneOutlined
+                        style={{ fontSize: "20px", color: "#1890ff" }}
+                      />
+                      <Text style={{ fontSize: "16px" }}>
+                        {profile.phoneNo}
+                      </Text>
+                    </div>
+                  </Col>
+                )}
               </Row>
-            )}
+
+              {!currentUserId && (
+                <Row>
+                  <Col xs={24}>
+                    <Button
+                      type="primary"
+                      icon={<MessageOutlined />}
+                      onClick={() => navigate("/user/chat")}
+                      size="large"
+                      style={{ width: "100%" }}
+                    >
+                      Message
+                    </Button>
+                  </Col>
+                </Row>
+              )}
+            </div>
           </Col>
         </Row>
       </Card>
@@ -148,7 +179,7 @@ const Profile = ({ profileId }) => {
   return (
     <div
       style={{
-        padding: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+        padding: "1rem",
         maxWidth: "1200px",
         margin: "0 auto",
       }}
@@ -156,7 +187,9 @@ const Profile = ({ profileId }) => {
       <BasicInfo />
 
       {profile.resume === null ? (
-        <Card style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <Card
+          style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem" }}
+        >
           <Title level={4}>No Resume Uploaded</Title>
           {currentUserId && (
             <Button
@@ -175,6 +208,7 @@ const Profile = ({ profileId }) => {
             style={{
               marginBottom: "2rem",
               boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              padding: "1rem",
             }}
           >
             <Title
@@ -187,7 +221,7 @@ const Profile = ({ profileId }) => {
             >
               {profile.resume.title}
             </Title>
-            <Paragraph style={{ textAlign: "center" }}>
+            <Paragraph style={{ textAlign: "center", wordBreak: "break-word" }}>
               {profile.resume.summary}
             </Paragraph>
           </Card>
@@ -198,6 +232,7 @@ const Profile = ({ profileId }) => {
                 style={{
                   height: "100%",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "1rem",
                 }}
               >
                 <Education education={profile.resume.CV.education} />
@@ -208,6 +243,7 @@ const Profile = ({ profileId }) => {
                 style={{
                   height: "100%",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "1rem",
                 }}
               >
                 <ProfessionalExperience
@@ -220,6 +256,7 @@ const Profile = ({ profileId }) => {
                 style={{
                   height: "100%",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "1rem",
                 }}
               >
                 <Projects projects={profile.resume.CV.project} />
@@ -230,13 +267,19 @@ const Profile = ({ profileId }) => {
                 style={{
                   height: "100%",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "1rem",
                 }}
               >
                 <Achievements achievements={profile.resume.CV.achievement} />
               </Card>
             </Col>
             <Col xs={24}>
-              <Card style={{ boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+              <Card
+                style={{
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "1rem",
+                }}
+              >
                 <Skills skills={profile?.resume?.CV?.other?.skills || []} />
               </Card>
             </Col>
